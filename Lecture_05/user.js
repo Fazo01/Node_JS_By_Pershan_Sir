@@ -1,8 +1,8 @@
-const http = require("http");
+
 const fs = require("fs");
 const { buffer } = require("stream/consumers");
 const { URLSearchParams } = require("url");
-const server = http.createServer((req, res) => {
+requestHandle=(req, res) => {
   console.log(req.url, req.method);
   // process.exit();
   if (req.url == "/") {
@@ -57,8 +57,7 @@ const server = http.createServer((req, res) => {
   res.write("<head><h1>like/subs/comment</h1></head>");
   res.write("</html>");
   res.end();
-});
-const PORT = 3000;
-server.listen(PORT, () => {
-  console.log(`Server is running on port http://localhost:${PORT}`);
-});
+};
+
+//For exporting
+module.exports=requestHandle
