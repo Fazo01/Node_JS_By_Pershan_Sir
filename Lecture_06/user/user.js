@@ -1,4 +1,5 @@
 
+const { error } = require("console");
 const fs = require("fs");
 const { buffer } = require("stream/consumers");
 const { URLSearchParams } = require("url");
@@ -36,27 +37,27 @@ requestHandle=(req, res) => {
       console.log(fullbody)
       //filtering symbols
       const perms=new URLSearchParams(fullbody)
-      //1st Method
-      // const bodyObject={}
-      // for(const [key,val] of perms.entries()){
-      //   bodyObject[key]=val;
-      // }
+      
       //2nd Method
       const bodyObject=Object.fromEntries(perms)
       console.log(bodyObject)
-
-      fs.writeFileSync("user.txt", JSON.stringify(bodyObject));//Now transfer it into file after filter
+ 
+      fs.writeFile("user.txt", JSON.stringify(bodyObject),error=>{
+        res.statusCode = 302;
+        res.setHeader("Location", "/");
+        return res.end();
+      });
     })
-    res.statusCode = 302;
-    res.setHeader("Location", "/");
+
     // res.end()
-  }
+  }else{
   res.setHeader("content-type", "text/html");
   res.write("<html>");
   res.write("<head><title>Complete Coding</title></head>");
   res.write("<head><h1>like/subs/comment</h1></head>");
   res.write("</html>");
   res.end();
+  }
 };
 
 //For exporting
